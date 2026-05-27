@@ -1,0 +1,119 @@
+# ==========================================================
+# Problema 4 - Videoteca digital
+# Curso: Fundamentos de Programación
+# Programa: Ingeniería de Multimedia
+# Autor: Omar Andrés Ríos Ortega
+# ==========================================================
+
+# Procedimiento para mostrar la videoteca
+def mostrar_videoteca(videoteca):
+    print("\nVIDEOTECA DIGITAL")
+    print("-" * 70)
+    print(f"{'Título':25} {'Año':8} {'Calificación':15} {'Género':15}")
+    print("-" * 70)
+
+    for fila in videoteca:
+        titulo = fila[0]
+        anio = fila[1]
+        calificacion = fila[2]
+        genero = fila[3]
+        print(f"{titulo:25} {anio:<8} {calificacion:<15} {genero:<15}")
+
+    print("-" * 70)
+
+
+# Función para contar los títulos que cumplen ambos criterios
+def contar_titulos_populares_recientes(videoteca, umbral_calificacion, anio_limite):
+    contador = 0
+
+    for fila in videoteca:
+        titulo = fila[0]
+        anio = fila[1]
+        calificacion = fila[2]
+        genero = fila[3]
+
+        if calificacion >= umbral_calificacion and anio >= anio_limite:
+            contador += 1
+
+    return contador
+
+
+# Función adicional para obtener los títulos que cumplen
+# (sirve para explicar mejor el resultado en el video)
+def obtener_titulos_que_cumplen(videoteca, umbral_calificacion, anio_limite):
+    lista_cumplen = []
+
+    for fila in videoteca:
+        titulo = fila[0]
+        anio = fila[1]
+        calificacion = fila[2]
+        genero = fila[3]
+
+        if calificacion >= umbral_calificacion and anio >= anio_limite:
+            lista_cumplen.append(fila)
+
+    return lista_cumplen
+
+
+# Función para validar la calificación ingresada
+def pedir_calificacion():
+    while True:
+        try:
+            umbral = float(input("Ingrese la calificación mínima (1 a 10): "))
+            if 1 <= umbral <= 10:
+                return umbral
+            else:
+                print("Error: la calificación debe estar entre 1 y 10.")
+        except ValueError:
+            print("Error: ingrese un número válido.")
+
+
+# Función para validar el año ingresado
+def pedir_anio():
+    while True:
+        try:
+            anio = int(input("Ingrese el año límite: "))
+            if anio > 0:
+                return anio
+            else:
+                print("Error: ingrese un año válido.")
+        except ValueError:
+            print("Error: ingrese un número entero válido.")
+
+
+# Procedimiento principal
+def main():
+    # Matriz con mínimo 7 títulos
+    videoteca = [
+        ["Inception", 2010, 8.8, "Ciencia ficción"],
+        ["Interstellar", 2014, 8.6, "Ciencia ficción"],
+        ["Parasite", 2019, 8.5, "Drama"],
+        ["The Batman", 2022, 7.9, "Acción"],
+        ["Avatar 2", 2022, 7.6, "Aventura"],
+        ["Dune", 2021, 8.0, "Ciencia ficción"],
+        ["Joker", 2019, 8.4, "Drama"],
+        ["Top Gun: Maverick", 2022, 8.3, "Acción"]
+    ]
+
+    mostrar_videoteca(videoteca)
+
+    print("\nCRITERIOS DE BÚSQUEDA")
+    umbral_calificacion = pedir_calificacion()
+    anio_limite = pedir_anio()
+
+    total = contar_titulos_populares_recientes(videoteca, umbral_calificacion, anio_limite)
+    titulos_filtrados = obtener_titulos_que_cumplen(videoteca, umbral_calificacion, anio_limite)
+
+    print("\nRESULTADO")
+    print(f"Cantidad total de títulos que cumplen ambos criterios: {total}")
+
+    if total > 0:
+        print("\nTítulos que cumplen:")
+        for fila in titulos_filtrados:
+            print(f"- {fila[0]} ({fila[1]}) | Calificación: {fila[2]} | Género: {fila[3]}")
+    else:
+        print("No hay títulos que cumplan con ambos criterios.")
+
+
+# Llamado principal del programa
+main()
